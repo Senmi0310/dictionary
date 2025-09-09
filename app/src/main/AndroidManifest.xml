@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dictionary">
         <activity
+            android:name=".registerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".loginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
