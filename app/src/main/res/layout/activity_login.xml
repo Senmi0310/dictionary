@@ -11,9 +11,36 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/login_picture" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/login_picture"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btn_change_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/profile_image"
+            android:layout_alignEnd="@id/profile_image"
+            android:background="@mipmap/login_picture"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/login_picture" />
+    </RelativeLayout>
 
 
     <TextView
@@ -48,6 +75,7 @@
                 android:src="@drawable/baseline_account_box_24" />
 
             <EditText
+                android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -73,6 +101,7 @@
                 android:src="@drawable/baseline_lock_24" />
 
             <EditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -85,6 +114,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
+            android:id="@+id/register"
             android:layout_marginTop="10dp"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
@@ -93,6 +123,7 @@
             android:text="还未注册？"/>
 
         <Button
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:backgroundTint="@color/my_light_primary"
             android:text="登录"
