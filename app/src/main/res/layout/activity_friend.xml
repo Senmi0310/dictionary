@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".friendActivity">
+
+    <!-- 顶部图片 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/login_picture"
+        android:contentDescription="登录背景图" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp">
+
+        <!-- 添加返回箭头在头像左侧顶格位置 -->
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@id/profile_image"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="center"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:contentDescription="返回"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/login_picture"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btn_change_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/profile_image"
+            android:layout_alignEnd="@id/profile_image"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_camera"
+            android:contentDescription="更改头像按钮" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="好友列表"
+        android:textColor="#333"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- 搜索框和添加按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp">
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="搜索好友"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <ImageButton
+            android:id="@+id/add_friend_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/person_search"
+            android:contentDescription="添加好友" />
+    </LinearLayout>
+
+    <!-- ListView显示好友列表 -->
+    <ListView
+        android:id="@+id/friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="12dp"
+        android:paddingHorizontal="16dp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -18,7 +18,7 @@ public class registerActivity extends AppCompatActivity {
 
     private EditText et_username;
     private EditText et_password;
-    private SharedPreferences mSharedPreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,7 @@ public class registerActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
-        //获取用户名和密码
-        mSharedPreference =getSharedPreferences("user",MODE_PRIVATE);
+
 
         //初始化控件
         et_username =findViewById(R.id.et_username);
@@ -53,15 +52,14 @@ public class registerActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
                     Toast.makeText(registerActivity.this, "请输入用户名或密码", Toast.LENGTH_SHORT).show();
                 }else {
-                    SharedPreferences.Editor edit = mSharedPreference.edit();
-                    edit.putString("username",username);
-                    edit.putString("password",password);
 
-                    //一定要提交
-                    edit.commit();
+                    int row = UserDbHelper.getInstance(registerActivity.this).register(username, password, "暂无");
+                    if(row>0){
+                        Toast.makeText(registerActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
 
-                    Toast.makeText(registerActivity.this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
-                    finish();
+
                 }
             }
         });

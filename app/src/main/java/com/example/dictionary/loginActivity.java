@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.UserInfo;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,6 +42,8 @@ public class loginActivity extends AppCompatActivity {
     private CircleImageView profileImage;
     private ImageButton btnChangeAvatar;
     private Uri avatarUri;
+    private ProgressBar progressBar; // 添加进度条
+    private Handler handler; // 用于延迟执行
 
     // 预设头像资源ID
     private final int[] avatarResources = {
@@ -55,6 +61,8 @@ public class loginActivity extends AppCompatActivity {
         // 初始化视图
         profileImage = findViewById(R.id.profile_image);
         btnChangeAvatar = findViewById(R.id.btn_change_avatar);
+        progressBar = findViewById(R.id.progressBar); // 初始化进度条
+        handler = new Handler(); // 初始化Handler
 
         // 设置头像点击事件 - 显示头像选择对话框
         btnChangeAvatar.setOnClickListener(new View.OnClickListener() {
@@ -98,13 +106,25 @@ public class loginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(passsword)) {
                     Toast.makeText(loginActivity.this, "请输入用户名或密码", Toast.LENGTH_SHORT).show();
                 } else {
-                    String name = mSharedPreference.getString("username", null);
-                    String pwd = mSharedPreference.getString("password", null);
+                    Userinfo login = UserDbHelper.getInstance(loginActivity.this).login(username);
 
-                    if (username.equals(name) && passsword.equals(pwd)) {
-                        //登陆成功
-                        Intent intent = new Intent(loginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                    if (username.equals(login.getUsername()) && passsword.equals(login.getPassword())) {
+                        // 显示进度条
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        // 5秒后跳转到主界面
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 登陆成功
+                                Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish(); // 结束当前Activity
+
+                                // 隐藏进度条
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }, 5000); // 5000毫秒 = 5秒
                     } else {
                         Toast.makeText(loginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                     }
@@ -233,5 +253,16 @@ public class loginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadSavedAvatar();
+        // 确保进度条在页面恢复时隐藏
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 移除所有回调，防止内存泄漏
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 }
